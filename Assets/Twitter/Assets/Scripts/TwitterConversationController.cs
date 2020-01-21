@@ -16,6 +16,7 @@ public class TwitterConversationController : MonoBehaviour
 
     private void Start()
     {
+        trans = GetComponent<RectTransform>();
         StartCoroutine(Initialize());
     }
 
@@ -39,7 +40,6 @@ public class TwitterConversationController : MonoBehaviour
             tweets.Add(child.GetComponent<RectTransform>());
         }
 
-        // trans = GetComponent<RectTransform>();
         // trans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, panelsHeight.Sum() + panelsHeight.Count * gap);
         // trans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, panelsHeight[0]);
     }
@@ -58,7 +58,13 @@ public class TwitterConversationController : MonoBehaviour
         var slideDistance = Mathf.Abs(Mathf.Clamp(availableSpace - (panelsHeight[tweetsDoneCount] + gap), Mathf.NegativeInfinity, 0));
         Debug.Log($"Slide Distance: {slideDistance}");
         var nextTweetPos = availableSpace + slideDistance - gap - panelsHeight[tweetsDoneCount] / 2;
-        // var slideDistance = Mathf.Abs(Mathf.Clamp(panelsHeight[tweetsDoneCount - 1] / 2 + panelsHeight[tweetsDoneCount] / 2 + gap, 0, Mathf.Infinity));
+
+        var contentHeight = panelsHeight.GetRange(0, tweetsDoneCount + 1).Sum() + tweetsDoneCount * gap;
+        Debug.Log($"Content height: {contentHeight}");
+        if (contentHeight > trans.rect.height)
+        {
+            trans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, contentHeight);
+        }
 
         for (int i = 0; i < tweetsDoneCount; i++)
         {
