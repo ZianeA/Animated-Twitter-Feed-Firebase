@@ -8,7 +8,7 @@ public class TwitterConversationController : MonoBehaviour
     private List<float> panelsHeight;
     private List<TwitterConversationSlider> panelsSlider;
     private List<RectTransform> tweets;
-    private int tweetsDoneCount;
+    private int tweetsDoneCount = 1;
 
     public static readonly int gap = 25;
 
@@ -45,41 +45,33 @@ public class TwitterConversationController : MonoBehaviour
 
     private IEnumerator AnimateConversation()
     {
-        tweetsDoneCount += 1;
+        if (tweetsDoneCount == tweets.Count) yield break;
 
-        if (tweetsDoneCount < panelsHeight.Count)
+        var slideDistance = Mathf.Abs(Mathf.Clamp(panelsHeight[tweetsDoneCount - 1] / 2 + panelsHeight[tweetsDoneCount] / 2 + gap, 0, Mathf.Infinity));
+
+        for (int i = 0; i < tweetsDoneCount; i++)
         {
-            for (int i = 0; i < tweetsDoneCount; i++)
+            var nextTweetPos = tweets[i].anchoredPosition.y;
+            panelsSlider[i].Slide(slideDistance);
+
+            var t = 0f;
+            var timeBetweenTweets = i >= tweetsDoneCount - 1 ? 0.5f : 0.1f;
+
+            while (t <= 1)
             {
-                var panelsRequiredHeight = 0f;
+                t += Time.deltaTime * 1 / timeBetweenTweets;
 
-                for (int j = i + 1; j <= tweetsDoneCount; j++)
-                {
-                    panelsRequiredHeight += panelsHeight[j] + gap;
-                }
+                yield return null;
+            }
 
-                var slideDistance = Mathf.Abs(Mathf.Clamp(tweets[i].anchoredPosition.y - panelsHeight[i] - (panelsRequiredHeight + gap), Mathf.NegativeInfinity, 0));
-                var panelTargetPos = tweets[i].anchoredPosition.y + slideDistance - panelsHeight[i];
-                panelsSlider[i].Slide(slideDistance);
-
-                var t = 0f;
-                var timeBetweenTweets = i >= tweetsDoneCount - 1 ? 0.5f : 0.1f;
-
-                while (t <= 1)
-                {
-                    t += Time.deltaTime * 1 / timeBetweenTweets;
-
-                    yield return null;
-                }
-
-                if (i >= tweetsDoneCount - 1)
-                {
-                    var nextTweet = tweets[i + 1];
-                    //nextTweet.anchoredPosition = new Vector2(nextTweet.anchoredPosition.x, panelsHeight[i + 1] + gap);
-                    nextTweet.anchoredPosition = new Vector2(nextTweet.anchoredPosition.x, panelTargetPos - gap);
-                    nextTweet.GetComponent<AnimationController>().Play();
-                }
+            if (i >= tweetsDoneCount - 1)
+            {
+                var nextTweet = tweets[i + 1];
+                nextTweet.anchoredPosition = new Vector2(nextTweet.anchoredPosition.x, nextTweetPos);
+                nextTweet.GetComponent<AnimationController>().Play();
             }
         }
+
+        tweetsDoneCount += 1;
     }
 }

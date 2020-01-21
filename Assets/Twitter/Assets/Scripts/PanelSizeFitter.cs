@@ -34,20 +34,28 @@ public class PanelSizeFitter : MonoBehaviour
         }
     }
 
-    private void Start()
+    private IEnumerator StartDelayed()
     {
-        var textLabel = typeOn.GetComponent<TextMeshProUGUI>();
-        textLabel.ForceMeshUpdate();
-        lineSize = textLabel.preferredHeight / textLabel.textInfo.lineCount;
+        yield return new WaitForEndOfFrame();
 
-        panelSize = PanelMinSize + lineSize;
+        var textLabel = typeOn.GetComponent<TextMeshProUGUI>();
+        lineSize = textLabel.preferredHeight / textLabel.textInfo.lineCount;
+        Debug.Log($"Line count = {textLabel.textInfo.lineCount}");
+
         trans = GetComponent<RectTransform>();
-        trans.sizeDelta = new Vector2(trans.sizeDelta.x, panelSize);
+        panelSize = PanelMinSize + lineSize;
+        Debug.Log($"Panel size = {panelSize}");
+        trans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, panelSize);
 
         typeOn.JumpLine += () =>
         {
             StartCoroutine(ScalePanel());
         };
+    }
+
+    private void Start()
+    {
+        StartCoroutine(StartDelayed());
     }
 
     private IEnumerator ScalePanel()
@@ -60,12 +68,12 @@ public class PanelSizeFitter : MonoBehaviour
         {
             t += Time.deltaTime * animationSpeed;
             panelSize = Mathf.Lerp(currentPanelSize, targetPanelSize, curve.Evaluate(t));
-            trans.sizeDelta = new Vector2(trans.sizeDelta.x, panelSize);
+            trans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, panelSize);
 
             yield return null;
         }
 
-        trans.sizeDelta = new Vector2(trans.sizeDelta.x, targetPanelSize);
         panelSize = targetPanelSize;
+        trans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, panelSize);
     }
 }
