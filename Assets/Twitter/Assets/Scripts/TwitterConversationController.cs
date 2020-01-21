@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class TwitterConversationController : MonoBehaviour
 {
@@ -9,8 +10,9 @@ public class TwitterConversationController : MonoBehaviour
     private List<TwitterConversationSlider> panelsSlider;
     private List<RectTransform> tweets;
     private int tweetsDoneCount = 1;
+    private RectTransform trans;
 
-    public static readonly int gap = 25;
+    public static readonly int gap = 24;
 
     private void Start()
     {
@@ -36,6 +38,10 @@ public class TwitterConversationController : MonoBehaviour
             child.GetComponentInChildren<TweetTimer>().TimesUp += OnTimesUp;
             tweets.Add(child.GetComponent<RectTransform>());
         }
+
+        // trans = GetComponent<RectTransform>();
+        // trans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, panelsHeight.Sum() + panelsHeight.Count * gap);
+        // trans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, panelsHeight[0]);
     }
 
     private void OnTimesUp()
@@ -47,11 +53,15 @@ public class TwitterConversationController : MonoBehaviour
     {
         if (tweetsDoneCount == tweets.Count) yield break;
 
-        var slideDistance = Mathf.Abs(Mathf.Clamp(panelsHeight[tweetsDoneCount - 1] / 2 + panelsHeight[tweetsDoneCount] / 2 + gap, 0, Mathf.Infinity));
+        var availableSpace = tweets[tweetsDoneCount - 1].anchoredPosition.y - panelsHeight[tweetsDoneCount - 1] / 2;
+        Debug.Log($"Available space: {availableSpace}");
+        var slideDistance = Mathf.Abs(Mathf.Clamp(availableSpace - (panelsHeight[tweetsDoneCount] + gap), Mathf.NegativeInfinity, 0));
+        Debug.Log($"Slide Distance: {slideDistance}");
+        var nextTweetPos = availableSpace + slideDistance - gap - panelsHeight[tweetsDoneCount] / 2;
+        // var slideDistance = Mathf.Abs(Mathf.Clamp(panelsHeight[tweetsDoneCount - 1] / 2 + panelsHeight[tweetsDoneCount] / 2 + gap, 0, Mathf.Infinity));
 
         for (int i = 0; i < tweetsDoneCount; i++)
         {
-            var nextTweetPos = tweets[i].anchoredPosition.y;
             panelsSlider[i].Slide(slideDistance);
 
             var t = 0f;

@@ -25,13 +25,13 @@ public class PositionSetter : MonoBehaviour
         switch (position)
         {
             case Position.Top:
-                trans.anchoredPosition = new Vector2(trans.anchoredPosition.x, canvasHeight / 2 - TwitterConversationController.gap - panelHeight / 2);
+                trans.anchoredPosition = new Vector2(trans.anchoredPosition.x, canvasHeight - panelHeight / 2);
                 break;
             case Position.Bottom:
-                trans.anchoredPosition = new Vector2(trans.anchoredPosition.x, -(canvasHeight / 2 - TwitterConversationController.gap - panelHeight / 2));
+                trans.anchoredPosition = new Vector2(trans.anchoredPosition.x, panelHeight / 2);
                 break;
             case Position.Center:
-                trans.anchoredPosition = new Vector2(trans.anchoredPosition.x, 0);
+                trans.anchoredPosition = new Vector2(trans.anchoredPosition.x, canvasHeight / 2);
                 break;
             default:
                 break;
