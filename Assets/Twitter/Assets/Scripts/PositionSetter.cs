@@ -18,9 +18,6 @@ public class PositionSetter : MonoBehaviour
         var panelHeight = PanelSizeFitter.PanelMinSize + tweetText.preferredHeight;
         var trans = GetComponent<RectTransform>();
         var canvasHeight = trans.parent.GetComponent<RectTransform>().rect.height;
-        Debug.Log($"Text height: {tweetText.preferredHeight}");
-        Debug.Log($"Panel Height: {panelHeight}");
-        Debug.Log($"Canvas height: {canvasHeight}");
 
         switch (position)
         {

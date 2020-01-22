@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ public class TwitterConversationSlider : MonoBehaviour
 
     private bool isDoneSliding = true;
     private float nextSlideDistance;
+
+    public event Action SlidingComplete;
 
     public void Slide(float distance)
     {
@@ -41,11 +44,22 @@ public class TwitterConversationSlider : MonoBehaviour
 
         trans.anchoredPosition = new Vector2(trans.anchoredPosition.x, targetPosition);
         isDoneSliding = true;
+        OnSlidingComplete();
 
         if (nextSlideDistance != 0)
         {
             StartCoroutine(SlideAnimation(nextSlideDistance));
             nextSlideDistance = 0;
+        }
+    }
+
+    private void OnSlidingComplete()
+    {
+        var handler = SlidingComplete;
+
+        if(handler != null)
+        {
+            handler();
         }
     }
 }

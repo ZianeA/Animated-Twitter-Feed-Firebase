@@ -40,11 +40,9 @@ public class PanelSizeFitter : MonoBehaviour
 
         var textLabel = typeOn.GetComponent<TextMeshProUGUI>();
         lineSize = textLabel.preferredHeight / textLabel.textInfo.lineCount;
-        Debug.Log($"Line count = {textLabel.textInfo.lineCount}");
 
         trans = GetComponent<RectTransform>();
         panelSize = PanelMinSize + lineSize;
-        Debug.Log($"Panel size = {panelSize}");
         trans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, panelSize);
 
         typeOn.JumpLine += () =>

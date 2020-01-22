@@ -7,7 +7,7 @@ using TMPro;
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class TweetTimer : MonoBehaviour 
 {
-    private static readonly int maxReadTime = 8;
+    private static readonly int maxReadTime = 16;
     private static readonly int minReadTime = 3;
 
     public event Action TimesUp;
