@@ -13,6 +13,7 @@ public class TwitterConversationController : MonoBehaviour
     private List<TwitterConversationSlider> panelsSlider;
     private List<RectTransform> tweets;
     private List<TweetTimer> tweetTimers = new List<TweetTimer>();
+    private List<AudioSource> tweetsAudio = new List<AudioSource>();
     private int tweetsDoneCount = 1;
     private RectTransform trans;
     private bool canSkipTweet = true;
@@ -47,6 +48,8 @@ public class TwitterConversationController : MonoBehaviour
             tweetTimers.Add(tweetTimer);
             tweetTimer.TimesUp += OnTimesUp;
 
+            tweetsAudio.Add(tweetTimer.GetComponent<AudioSource>());
+
             tweets.Add(child.GetComponent<RectTransform>());
         }
     }
@@ -66,6 +69,7 @@ public class TwitterConversationController : MonoBehaviour
         for (int i = 0; i < tweetsDoneCount; i++)
         {
             tweetTimers[i].TimesUp -= OnTimesUp;
+            tweetsAudio[i].mute = true;
         }
         StartCoroutine(AnimateConversation());
     }
@@ -107,16 +111,6 @@ public class TwitterConversationController : MonoBehaviour
         for (int i = 0; i < tweetsDoneCount; i++)
         {
             panelsSlider[i].Slide(slideDistance);
-
-            // Action onLastTweetSlidingComplete = null;
-            // if (i == tweetsDoneCount - 1)
-            // {
-            //     panelsSlider[i].SlidingComplete += onLastTweetSlidingComplete = () =>
-            //     {
-            //         panelsSlider[i].SlidingComplete -= onLastTweetSlidingComplete;
-
-            //     };
-            // }
         }
     }
 }

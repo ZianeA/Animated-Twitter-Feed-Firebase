@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class LongPressTrigger : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class LongPressTrigger : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     [SerializeField]
     [Tooltip("How long must pointer be down on this object to trigger a long press")]
@@ -11,6 +11,11 @@ public class LongPressTrigger : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     private float timestamp = 0f;
 
     public event Action onLongPress;
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        timestamp = Mathf.Infinity;
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -20,12 +25,11 @@ public class LongPressTrigger : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     public void OnPointerUp(PointerEventData eventData)
     {
         if (Time.time - timestamp >= holdTime) OnLongPressInvoke();
-        timestamp = 0;
+        timestamp = Mathf.Infinity;
     }
 
     private void OnLongPressInvoke()
     {
-        Debug.Log("Hola!");
         var handler = onLongPress;
 
         if (handler != null)
