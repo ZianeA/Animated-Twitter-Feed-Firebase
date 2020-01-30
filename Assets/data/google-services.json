@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1038676069938",
+    "firebase_url": "https://animated-twitter-feed.firebaseio.com",
+    "project_id": "animated-twitter-feed",
+    "storage_bucket": "animated-twitter-feed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1038676069938:android:86d134caa70b967728762b",
+        "android_client_info": {
+          "package_name": "com.aliziane.animatedtwitterfeed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1038676069938-8qmri9ek505ia6v8m2b54ntj1ha9v261.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7uJtwmj971rfmlGADM-uYExhaP4oSl28"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1038676069938-8qmri9ek505ia6v8m2b54ntj1ha9v261.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

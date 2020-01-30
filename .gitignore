@@ -56,8 +56,18 @@ sysinfo.txt
 *.unitypackage
 
 # Other
-Logo\ Animation/
-Logo/
+/[Aa]ssets/Firebase/
+/[Aa]ssets/Firebase.meta
+/[Aa]ssets/PlayServicesResolver/
+/[Aa]ssets/PlayServicesResolver.meta
+/[Aa]ssets/Parse/
+/[Aa]ssets/Parse.meta
+/[Aa]ssets/Plugins/
+/[Aa]ssets/Plugins.meta
+/[Aa]ssets/Editor\ Default\ Resources/
+/[Aa]ssets/Editor\ Default\ Resources.meta
+[Aa]pk/
+[Aa]pk.meta
 
 # Crashlytics generated file
 crashlytics-build.properties
